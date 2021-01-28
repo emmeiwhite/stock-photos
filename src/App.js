@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import Photo from "./Photo";
 
-const KEY = "chfO2I4YSDqNBSVZBb0DbYdEDluUb-gPUVSG-cqnEBc";
+// const KEY = "chfO2I4YSDqNBSVZBb0DbYdEDluUb-gPUVSG-cqnEBc";
 // const clientID = `?client_id=${process.env.REACT_APP_ACCESS_KEY}`
+
+const clientID = `?client_id=${process.allowedNodeEnvironmentFlags.REACT_APP_KEY}`;
 const mainUrl = `https://api.unsplash.com/photos/`;
 const searchUrl = `https://api.unsplash.com/search/photos/`;
 
 function App() {
-  let url = `${mainUrl}?client_id=${KEY}`;
   const getPhotos = async () => {
+    let url = `${mainUrl}${clientID}`; // Setting the environmental variable
     try {
       const response = await fetch(url);
       const data = await response.json();
