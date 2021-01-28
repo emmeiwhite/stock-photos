@@ -5,7 +5,7 @@ import Photo from "./Photo";
 // const KEY = "chfO2I4YSDqNBSVZBb0DbYdEDluUb-gPUVSG-cqnEBc";
 // const clientID = `?client_id=${process.env.REACT_APP_ACCESS_KEY}`
 
-const clientID = `?client_id=${process.allowedNodeEnvironmentFlags.REACT_APP_KEY}`;
+const clientID = `?client_id=${process.env.REACT_APP_KEY}`;
 const mainUrl = `https://api.unsplash.com/photos/`;
 const searchUrl = `https://api.unsplash.com/search/photos/`;
 
