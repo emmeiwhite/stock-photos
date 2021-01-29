@@ -19,6 +19,7 @@ function App() {
       const data = await response.json();
       setPhotos(data);
       setLoading(false);
+      console.log(data);
     } catch (error) {
       setLoading(false);
       setError(true);
@@ -34,9 +35,9 @@ function App() {
     getPhotos();
   }, []);
 
-  if (loading) {
-    return <h4>loading...</h4>;
-  }
+  // if (loading) {
+  //   return <h4>loading...</h4>;
+  // }
 
   if (error) {
     return <h3>ERROR: Something went Wrong </h3>;
@@ -50,6 +51,16 @@ function App() {
             <FaSearch />
           </button>
         </form>
+      </section>
+
+      <section className="photos">
+        <div className="photos-center">
+          {photos.map((photo) => (
+            <Photo key={photo.id} {...photo} />
+          ))}
+        </div>
+
+        {loading && <h2 className="loading">loading ...</h2>}
       </section>
     </main>
   );
