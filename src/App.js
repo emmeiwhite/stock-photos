@@ -31,13 +31,37 @@ function App() {
     e.preventDefault();
   };
 
+  // This useEffect is for the initial rendering of photos from photo API
   useEffect(() => {
     getPhotos();
   }, []);
 
-  // if (loading) {
-  //   return <h4>loading...</h4>;
-  // }
+  // Now setting the event when the App loads initially. We must note that, it's a good practice to remove our event Listerner also as the component is unmounted
+
+  useEffect(() => {
+    const event = window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+        console.log("We are here !!!");
+      }
+      /* ---
+      let browserHeight = document.documentElement.clientHeight;
+      let scrollY = window.scrollY;
+      let scrollHeight = document.body.scrollHeight;
+
+      console.log(`Browser Height: ${browserHeight}`);
+      console.log(`Inner Height: ${window.innerHeight}`);
+      console.log(`ScrollY: ${scrollY}`);
+      console.log(`Scroll Height: ${scrollHeight}`);
+      --- */
+    });
+
+    console.log("useEffect() Invoked !!!");
+
+    // CleanUp Function | Kind of componentDidUnmount
+    return () => {
+      window.removeEventListener("scroll", event);
+    };
+  }, []);
 
   if (error) {
     return <h3>ERROR: Something went Wrong </h3>;
