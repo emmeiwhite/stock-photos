@@ -10,14 +10,18 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
 
   const getPhotos = async () => {
     setLoading(true);
-    let url = `${mainUrl}${clientID}`; // Setting the environmental variable
+    let urlEnd = `&page=${page}`;
+    let url = `${mainUrl}${clientID}${urlEnd}`; // Setting the environmental variable
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setPhotos(data);
+      setPhotos((prevState) => {
+        return [...prevState, ...data];
+      });
       setLoading(false);
       console.log(data);
     } catch (error) {
@@ -34,25 +38,20 @@ function App() {
   // This useEffect is for the initial rendering of photos from photo API
   useEffect(() => {
     getPhotos();
-  }, []);
+  }, [page]); // As soon as the page gets updated useEffect() will be invoked and getPhotos() called again
 
   // Now setting the event when the App loads initially. We must note that, it's a good practice to remove our event Listerner also as the component is unmounted
 
   useEffect(() => {
     const event = window.addEventListener("scroll", () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        console.log("We are here !!!");
+      if (
+        !loading &&
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 2
+      ) {
+        setPage((prevPage) => {
+          return prevPage + 1;
+        });
       }
-      /* ---
-      let browserHeight = document.documentElement.clientHeight;
-      let scrollY = window.scrollY;
-      let scrollHeight = document.body.scrollHeight;
-
-      console.log(`Browser Height: ${browserHeight}`);
-      console.log(`Inner Height: ${window.innerHeight}`);
-      console.log(`ScrollY: ${scrollY}`);
-      console.log(`Scroll Height: ${scrollHeight}`);
-      --- */
     });
 
     console.log("useEffect() Invoked !!!");
